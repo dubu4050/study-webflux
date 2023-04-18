@@ -4,11 +4,13 @@ import com.haejun.study.dto.MemberFormDto
 import com.haejun.study.entity.Member
 import com.haejun.study.entity.constant.Role
 import com.haejun.study.repository.MemberRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
+    private val passwordEncoder: PasswordEncoder,
 ) {
 
     suspend fun findByEmail(email: String): Member? {
@@ -25,7 +27,7 @@ class MemberService(
                 Member(
                     name = name,
                     email = email,
-                    password = password,
+                    password = passwordEncoder.encode(password),
                     address = address,
                     role = Role.USER,
                 )
