@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table
 class Member(
     @Id
     @Column("id")
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column("name")
     var name: String,

@@ -1,6 +1,8 @@
 package com.haejun.study.business
 
+import com.haejun.study.dto.MemberFormDto
 import com.haejun.study.entity.Member
+import com.haejun.study.entity.constant.Role
 import com.haejun.study.repository.MemberRepository
 import org.springframework.stereotype.Service
 
@@ -8,16 +10,26 @@ import org.springframework.stereotype.Service
 class MemberService(
     private val memberRepository: MemberRepository,
 ) {
-    suspend fun save(member: Member): Member {
-        validateDuplicateMember(member.email)
 
-        return memberRepository.save(member)
+    suspend fun findByEmail(email: String): Member? {
+        return memberRepository.findByEmail(email)
     }
 
-    private suspend fun validateDuplicateMember(email: String) {
-        val member = memberRepository.findByEmail(email)
-        if (member != null) {
+    suspend fun create(dto: MemberFormDto): Member {
+        findByEmail(dto.email)?.let {
             throw IllegalStateException("이미 존재하는 회원입니다.")
         }
+
+        return memberRepository.save(
+            with(dto) {
+                Member(
+                    name = name,
+                    email = email,
+                    password = password,
+                    address = address,
+                    role = Role.USER,
+                )
+            }
+        )
     }
 }
