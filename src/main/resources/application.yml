@@ -1,0 +1,18 @@
+spring:
+  r2dbc:
+    url: r2dbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
+    username: scatteradmin
+    password: helloscatter
+  thymeleaf:
+    prefix: classpath:templates/
+    encoding: "UTF-8"
+    suffix: .html
+    mode: HTML
+    cache: false
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
+
